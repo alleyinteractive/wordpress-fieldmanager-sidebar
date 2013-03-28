@@ -1,0 +1,9 @@
+This plugin allows the addition of custom sidebars to be used in FM for individual posts.
+
+Authors:
+
+* Will Gladstone, Software Developer, Alley Interactive LLC
+
+Open Source components consulted or used:
+
+* [03/28/13] Dependency on the wordpress-fieldmanager framework

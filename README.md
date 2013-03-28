@@ -1,0 +1,2 @@
+wordpress-fieldmanager-sidebar
+==============================
