@@ -50,7 +50,7 @@ class Fieldmanager_Sidebar extends Fieldmanager_Options {
 		}
 
 		// Add the Fieldmanager Sidebar javascript library
-		fm_add_script( 'fm_sidebar_js', fieldmanager_sidebar_get_baseurl().'js/fieldmanager-sidebar.js' );
+		wp_enqueue_script( 'fm_sidebar_js', fieldmanager_sidebar_get_baseurl().'js/fieldmanager-sidebar.js' );
 
 		parent::__construct( $options );
 	}
