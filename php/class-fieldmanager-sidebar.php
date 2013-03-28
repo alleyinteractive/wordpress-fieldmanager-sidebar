@@ -50,7 +50,7 @@ class Fieldmanager_Sidebar extends Fieldmanager_Options {
 		}
 
 		// Add the Fieldmanager Sidebar javascript library
-		fm_add_script( 'fm_sidebar_js', 'js/fieldmanager-sidebar.js' );
+		fm_add_script( 'fm_sidebar_js', fieldmanager_sidebar_get_baseurl().'js/fieldmanager-sidebar.js' );
 
 		parent::__construct( $options );
 	}
@@ -121,9 +121,6 @@ class Fieldmanager_Sidebar extends Fieldmanager_Options {
 	 * @return array
 	 */
 	public static function get_widgets( ) {
-		/** WordPress Administration Widgets API */
-		require_once(ABSPATH . 'wp-admin/includes/widgets.php');
-
 		global $wp_registered_widgets, $sidebars_widgets, $wp_registered_widget_controls;
 
 		$sort = $wp_registered_widgets;

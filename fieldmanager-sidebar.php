@@ -17,6 +17,9 @@ function fieldmanager_sidebar_init(){
 	require_once( dirname( __FILE__ ) . '/php/class-fieldmanager-sidebar.php' ); //Alter this. to your new plugin class
 	require_once( dirname( __FILE__ ) . '/php/class-plugin-dependency.php' );
 	require_once( dirname( __FILE__ ) . '/functions.php' );
+
+	/** WordPress Administration Widgets API */
+	require_once(ABSPATH . 'wp-admin/includes/widgets.php');
 }
 add_action('plugins_loaded', 'fieldmanager_sidebar_init');
 
