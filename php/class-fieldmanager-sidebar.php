@@ -45,7 +45,9 @@ class Fieldmanager_Sidebar extends Fieldmanager_Options {
 			'size' => '1'
 		);
 
-		$this->data = $this->get_widgets();
+		if ( empty( $this->data ) ) {
+			$this->data = $this->get_widgets();
+		}
 
 		// Add the Fieldmanager Sidebar javascript library
 		fm_add_script( 'fm_sidebar_js', 'js/fieldmanager-sidebar.js' );
@@ -119,42 +121,38 @@ class Fieldmanager_Sidebar extends Fieldmanager_Options {
 	 * @return array
 	 */
 	public static function get_widgets( ) {
-		if ( !empty( $this->data ) ) {
-			return $this->data;
-		} else {
-			/** WordPress Administration Widgets API */
-			require_once(ABSPATH . 'wp-admin/includes/widgets.php');
+		/** WordPress Administration Widgets API */
+		require_once(ABSPATH . 'wp-admin/includes/widgets.php');
 
-			global $wp_registered_widgets, $sidebars_widgets, $wp_registered_widget_controls;
+		global $wp_registered_widgets, $sidebars_widgets, $wp_registered_widget_controls;
 
-			$sort = $wp_registered_widgets;
-			usort( $sort, '_sort_name_callback' );
-			$done = array();
-			$widget_array = array();
-			foreach ( $sort as $widget ) {
-				if ( in_array( $widget['callback'], $done, true ) ) // We already showed this multi-widget
-					continue;
+		$sort = $wp_registered_widgets;
+		usort( $sort, '_sort_name_callback' );
+		$done = array();
+		$widget_array = array();
+		foreach ( $sort as $widget ) {
+			if ( in_array( $widget['callback'], $done, true ) ) // We already showed this multi-widget
+				continue;
 
-				$sidebar = is_active_widget( $widget['callback'], $widget['id'], false, false );
-				$done[] = $widget['callback'];
+			$sidebar = is_active_widget( $widget['callback'], $widget['id'], false, false );
+			$done[] = $widget['callback'];
 
-				$args = array( 'widget_id' => $widget['id'], 'widget_name' => $widget['name'], '_display' => 'template' );
+			$args = array( 'widget_id' => $widget['id'], 'widget_name' => $widget['name'], '_display' => 'template' );
 
-				if ( isset($wp_registered_widget_controls[$widget['id']]['id_base']) && isset($widget['params'][0]['number']) ) {
-					$id_base = $wp_registered_widget_controls[$widget['id']]['id_base'];
-					$args['_temp_id'] = "$id_base-".next_widget_id_number($id_base);
-					$args['_multi_num'] = next_widget_id_number($id_base);
-					$args['_add'] = 'multi';
-				} else {
-					$args['_add'] = 'single';
-					if ( $sidebar )
-						$args['_hide'] = '1';
-				}
-
-				$widget_array[$widget['callback'][0]->id_base] = array('name' => $widget['callback'][0]->name, 'value'=>$widget['callback'][0]->id_base, 'args' => $args, 'callback' => $widget['callback'] );
+			if ( isset($wp_registered_widget_controls[$widget['id']]['id_base']) && isset($widget['params'][0]['number']) ) {
+				$id_base = $wp_registered_widget_controls[$widget['id']]['id_base'];
+				$args['_temp_id'] = "$id_base-".next_widget_id_number($id_base);
+				$args['_multi_num'] = next_widget_id_number($id_base);
+				$args['_add'] = 'multi';
+			} else {
+				$args['_add'] = 'single';
+				if ( $sidebar )
+					$args['_hide'] = '1';
 			}
-			return $widget_array;
+
+			$widget_array[$widget['callback'][0]->id_base] = array('name' => $widget['callback'][0]->name, 'value'=>$widget['callback'][0]->id_base, 'args' => $args, 'callback' => $widget['callback'] );
 		}
+		return $widget_array;
 	}
 
 	/**

@@ -13,23 +13,27 @@ Version: 0.1
 Author URI: http://www.alleyinteractive.com/
 */
 
-require_once( dirname( __FILE__ ) . '/php/class-fieldmanager-sidebar.php' ); //Alter this. to your new plugin class
-require_once( dirname( __FILE__ ) . '/php/class-plugin-dependency.php' );
-require_once( dirname( __FILE__ ) . '/functions.php' );
+function fieldmanager_sidebar_init(){
+	require_once( dirname( __FILE__ ) . '/php/class-fieldmanager-sidebar.php' ); //Alter this. to your new plugin class
+	require_once( dirname( __FILE__ ) . '/php/class-plugin-dependency.php' );
+	require_once( dirname( __FILE__ ) . '/functions.php' );
+}
+add_action('plugins_loaded', 'fieldmanager_sidebar_init');
 
-function fieldmanager_plugin_dependency() {
+
+function fieldmanager_sidebar_dependency() {
 	$fieldmanager_dependency = new Plugin_Dependency( 'Fieldmanager Sidebar', 'Fieldmanager', 'https://github.com/netaustin/wordpress-fieldmanager' ); //Change your plugin title here
 	if( !$fieldmanager_dependency->verify() ) {
 		// Cease activation
 	 	die( $fieldmanager_dependency->message() );
 	}
 }
-register_activation_hook( __FILE__, 'fieldmanager_plugin_dependency' );
+register_activation_hook( __FILE__, 'fieldmanager_sidebar_dependency' );
 
 /**
  * Get the base URL for this plugin.
  * @return string URL pointing to Fieldmanager Plugin top directory.
  */
-function fieldmanager_plugin_get_baseurl() {
+function fieldmanager_sidebar_get_baseurl() {
 	return plugin_dir_url( __FILE__ );
 }
