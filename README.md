@@ -37,7 +37,7 @@ You can now populate the individual sidebar data, which will be saved when click
 In our example above a hook will be called when the the function:
 
 ```php
-dynamic_sidebar( 'my-sidebar-name' );
+fms_dynamic_sidebar( 'my-sidebar-name' );
 ```
 
 is called.
