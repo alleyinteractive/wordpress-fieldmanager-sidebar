@@ -51,3 +51,31 @@ function fms_show_sidebar( $instance, $widget_instance, $args ) {
 	return false;
 }
 add_filter( 'widget_display_callback', 'fms_show_sidebar', 10, 3 );
+
+/**
+ * Function that acts similarly to WordPress's built-in dynamic_sidebar() function; outputs to screen 
+ * the sidebar widgets selected for a post.
+ */
+function fms_dynamic_sidebar( $name_sidebar ) {
+	global $wp_registered_widgets;
+
+	$queried_object = get_queried_object();
+	$arr_widgets = get_post_meta( $queried_object->ID, $name_sidebar, true );
+
+	// For each widget listed in the post's dynamic sidebar...
+	foreach ( $arr_widgets as $arr_widget ) {
+		$str_widget_class = null;
+
+		// Look up the widget's class via its id_base value (which we recorded).
+		foreach ( $wp_registered_widgets as $wp_registered_widget ) {
+			if ( $wp_registered_widget['callback'][0]->id_base == $arr_widget[$name_sidebar]['widget_id'] ) {
+				$str_widget_class = get_class($wp_registered_widget['callback'][0]);
+			}
+		}
+
+		// Output the widget to the page.
+		if ( !is_null($str_widget_class) ) {
+			the_widget($str_widget_class, $arr_widget[$name_sidebar], array());
+		}
+	}
+}
