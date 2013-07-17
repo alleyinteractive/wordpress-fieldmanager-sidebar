@@ -221,6 +221,15 @@ class Fieldmanager_Sidebar extends Fieldmanager_Options {
 	}
 
 	/**
+	 * Presave function, which in this case just allows the values to pass through (sanitation/validation handled by the Widget class).
+	 * @param mixed $value If a single field expects to manage an array, it must override presave()
+	 * @return sanitized values. 
+	 */
+	public function presave( $value, $current_value = array() ) {
+		return $value;
+	}
+
+	/**
 	 * Remove empty widgets
 	 * @param array $values new post values
 	 * @param array $current_values existing post values
